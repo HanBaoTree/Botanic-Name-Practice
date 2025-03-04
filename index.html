@@ -273,7 +273,7 @@
     document.getElementById("width").value = "";
 
     const imagesDiv = document.getElementById("image-container");
-    const botanicalName = question.botanical.replace(/ /g, "_");
+    const botanicalName = question.botanical.replace(/ /g, "_").replace(/'/g, "");
     const imagePromises = [];
 
     // Attempt to load images dynamically
