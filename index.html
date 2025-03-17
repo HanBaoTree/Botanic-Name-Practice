@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Botanical Name Practice</title>
   <style>
     body {
@@ -120,20 +120,20 @@
   <h1 style="font-size: 28px; color: #228B22;">Tree ID Master - Provided by Han</h1>
   <p style="font-size: 22px; margin-top: 20px;">Select Group(s):</p>
   <div id="group-selection">
-    <label><input type="checkbox" value="Group 1"> Group 1</label>
-    <label><input type="checkbox" value="Group 2"> Group 2</label>
-    <label><input type="checkbox" value="Group 3"> Group 3</label>
-    <label><input type="checkbox" value="Group 4"> Group 4</label>
-    <label><input type="checkbox" value="Group 5"> Group 5</label>
-    <label><input type="checkbox" value="Group 6"> Group 6</label>
-    <label><input type="checkbox" value="Group 7"> Group 7</label>
+    <label><input type="checkbox" value="Group 1" /> Group 1</label>
+    <label><input type="checkbox" value="Group 2" /> Group 2</label>
+    <label><input type="checkbox" value="Group 3" /> Group 3</label>
+    <label><input type="checkbox" value="Group 4" /> Group 4</label>
+    <label><input type="checkbox" value="Group 5" /> Group 5</label>
+    <label><input type="checkbox" value="Group 6" /> Group 6</label>
+    <label><input type="checkbox" value="Group 7" /> Group 7</label>
   </div>
   <button onclick="confirmGroups()" style="margin-top: 10px;">Confirm Groups</button>
   <button onclick="resetPractice()" style="margin-top: 10px; background-color: #FF6347; border-color: #FF4500;">Reset Groups</button>
   <!-- Add instructions here so they are always visible -->
   <p id="intro" style="font-size: 14px; color: gray; margin-top: 10px; line-height: 1.5;">
-    Choose one or more groups to start the practice.<br>
-    You can always reset your selection by clicking the "Reset Groups" button.<br>
+    Choose one or more groups to start the practice.<br />
+    You can always reset your selection by clicking the "Reset Groups" button.<br />
     The "Check Height and Width" section is optional.
   </p>
 
@@ -156,14 +156,16 @@
 
     <div class="height-width-container">
       <label for="height">Height: </label>
-      <input type="number" id="height" placeholder="0" min="0" step="1"> ft
+      <input type="number" id="height" placeholder="0" min="0" step="1" /> ft
       <label for="width">Width: </label>
-      <input type="number" id="width" placeholder="0" min="0" step="1"> ft
+      <input type="number" id="width" placeholder="0" min="0" step="1" /> ft
       <button onclick="checkHeightWidth()">Check</button>
     </div>
-    <p id="height-width-info" class="info-message" style="display: none;">Height and width information not available for this tree.</p>
+    <p id="height-width-info" class="info-message" style="display: none;">
+      Height and width information not available for this tree.
+    </p>
     <p id="height-width-result" class="result"></p>
-    <input type="text" id="answer" style="display: none;" placeholder="Type your answer here">
+    <input type="text" id="answer" style="display: none;" placeholder="Type your answer here" />
     <button id="submit-btn" style="display: none;" onclick="checkTypingAnswer()">Submit</button>
     <p id="result" class="result"></p>
     <button id="next-btn" onclick="nextQuestion()">Next</button>
@@ -246,23 +248,24 @@
     let currentQuestionIndex = 0;
 
     function confirmGroups() {
-      selectedGroups = Array.from(document.querySelectorAll('#group-selection input:checked'))
-        .map(input => input.value);
+      selectedGroups = Array.from(document.querySelectorAll('#group-selection input:checked')).map(
+        (input) => input.value
+      );
       if (selectedGroups.length === 0) {
         alert("Please select at least one group.");
         return;
       }
-      questions = selectedGroups.flatMap(group => treeGroups[group]);
+      questions = selectedGroups.flatMap((group) => treeGroups[group]);
       questions = questions.sort(() => Math.random() - 0.5);
       document.getElementById("practice-area").style.display = "block";
-      moveIntroToBottom(); // Moves the intro to the bottom of the practice area
+      moveIntroToBottom();
       currentQuestionIndex = 0;
       showQuestion();
     }
 
     function resetPractice() {
       document.getElementById("practice-area").style.display = "none";
-      document.querySelectorAll('#group-selection input').forEach(input => input.checked = false);
+      document.querySelectorAll("#group-selection input").forEach((input) => (input.checked = false));
       selectedGroups = [];
     }
 
@@ -281,18 +284,20 @@
       const imagePromises = [];
       for (let i = 1; i <= 5; i++) {
         const imageUrl = `${imagePath}${botanicalName}_${i}.jpg`;
-        imagePromises.push(new Promise((resolve) => {
-          const img = new Image();
-          img.src = imageUrl;
-          img.alt = botanicalName;
-          img.onload = () => {
-            imagesDiv.appendChild(img);
-            resolve(true);
-          };
-          img.onerror = () => {
-            resolve(false);
-          };
-        }));
+        imagePromises.push(
+          new Promise((resolve) => {
+            const img = new Image();
+            img.src = imageUrl;
+            img.alt = botanicalName;
+            img.onload = () => {
+              imagesDiv.appendChild(img);
+              resolve(true);
+            };
+            img.onerror = () => {
+              resolve(false);
+            };
+          })
+        );
       }
       Promise.all(imagePromises).then((results) => {
         const hasImage = results.includes(true);
@@ -305,10 +310,7 @@
         const optionsDiv = document.getElementById("options");
         optionsDiv.innerHTML = "";
         const correctAnswer = question.botanical;
-        const choices = shuffle([
-          ...getRandomChoices(correctAnswer, 3, false),
-          correctAnswer,
-        ]);
+        const choices = shuffle([...getRandomChoices(correctAnswer, 3, false), correctAnswer]);
         choices.forEach((choice) => {
           const button = document.createElement("button");
           button.textContent = choice;
@@ -317,6 +319,9 @@
         });
         const heightWidthInfo = !question.height || !question.width;
         document.getElementById("height-width-info").style.display = heightWidthInfo ? "block" : "none";
+
+        // Unhide the category section now that options are set
+        document.getElementById("category-section").style.display = "block";
       });
     }
 
@@ -394,11 +399,11 @@
 
     function getRandomChoices(correctAnswer, numChoices, includeCommon) {
       const group = Object.values(treeGroups).flat();
-      const otherChoices = group.filter(tree => tree.botanical !== correctAnswer);
+      const otherChoices = group.filter((tree) => tree.botanical !== correctAnswer);
       return otherChoices
         .sort(() => Math.random() - 0.5)
         .slice(0, numChoices)
-        .map(tree =>
+        .map((tree) =>
           includeCommon
             ? tree.botanical + ", " + tree.common.join(", ")
             : tree.botanical
